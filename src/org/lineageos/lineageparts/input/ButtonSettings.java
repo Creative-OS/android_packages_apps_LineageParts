@@ -474,17 +474,10 @@ public class ButtonSettings extends SettingsPreferenceFragment
         mNavBarInverse = findPreference(KEY_NAV_BAR_INVERSE);
 
         mEnableTaskbar = findPreference(KEY_ENABLE_TASKBAR);
-        if (mEnableTaskbar != null) {
-            if (!isTablet(getContext()) || !hasNavigationBar()) {
-                mNavigationPreferencesCat.removePreference(mEnableTaskbar);
-            } else {
-                mEnableTaskbar.setOnPreferenceChangeListener(this);
-                mEnableTaskbar.setChecked(LineageSettings.System.getInt(resolver,
-                        LineageSettings.System.ENABLE_TASKBAR,
-                        isTablet(getContext()) ? 1 : 0) == 1);
-                toggleTaskBarDependencies(mEnableTaskbar.isChecked());
-            }
-        }
+        mEnableTaskbar.setOnPreferenceChangeListener(this);
+        mEnableTaskbar.setChecked(LineageSettings.System.getInt(resolver,
+                        LineageSettings.System.ENABLE_TASKBAR, 0) == 1);
+        toggleTaskBarDependencies(mEnableTaskbar.isChecked());
 
         List<Integer> unsupportedValues = new ArrayList<>();
         List<String> entries = new ArrayList<>(
